@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  color: #171717;
+}
+
+@media print {
+  .no-print { display: none !important; }
+
+  body {
+    background: white !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 화면 레이아웃 wrapper 숨기기 */
+  body > * {
+    display: none !important;
+  }
+
+  /* print-area 포함한 조상 요소 모두 보이게 */
+  body > *:has(.print-area),
+  body > * > *:has(.print-area) {
+    display: block !important;
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .print-area {
+    display: block !important;
+  }
+
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
 }

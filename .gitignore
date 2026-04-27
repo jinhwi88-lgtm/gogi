@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local DB (Railway에서는 volume으로 별도 관리)
+/data/*.db
