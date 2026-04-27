@@ -8,6 +8,7 @@ type OcrRow = TransactionInput & { _checked: boolean }
 
 export default function ScanPage() {
   const fileRef = useRef<HTMLInputElement>(null)
+  const cameraRef = useRef<HTMLInputElement>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [scanning, setScanning] = useState(false)
   const [rows, setRows] = useState<OcrRow[]>([])
@@ -124,12 +125,22 @@ export default function ScanPage() {
                 )}
               </div>
             ) : (
-              <button onClick={() => fileRef.current?.click()}
-                className="w-full h-52 border-2 border-dashed border-blue-400 rounded-2xl flex flex-col items-center justify-center text-blue-500 bg-blue-50 active:bg-blue-100 gap-2">
-                <span className="text-6xl">📷</span>
-                <span className="text-lg font-bold">거래내역서 사진 업로드</span>
-                <span className="text-sm text-gray-400">여러 줄 표도 한 번에 인식</span>
-              </button>
+              <div className="space-y-3">
+                {/* 카메라로 찍기 */}
+                <button onClick={() => cameraRef.current?.click()}
+                  className="w-full h-36 border-2 border-blue-400 rounded-2xl flex flex-col items-center justify-center text-blue-600 bg-blue-50 active:bg-blue-100 gap-2">
+                  <span className="text-5xl">📷</span>
+                  <span className="text-lg font-bold">카메라로 찍기</span>
+                  <span className="text-xs text-gray-400">지금 바로 촬영</span>
+                </button>
+                {/* 갤러리에서 선택 */}
+                <button onClick={() => fileRef.current?.click()}
+                  className="w-full h-28 border-2 border-dashed border-gray-300 rounded-2xl flex flex-col items-center justify-center text-gray-500 bg-gray-50 active:bg-gray-100 gap-2">
+                  <span className="text-4xl">🖼️</span>
+                  <span className="text-base font-bold">갤러리에서 선택</span>
+                  <span className="text-xs text-gray-400">기존에 찍어둔 사진</span>
+                </button>
+              </div>
             )}
             {error && (
               <div className="bg-red-50 border border-red-300 rounded-xl p-4 text-red-700">
@@ -138,7 +149,10 @@ export default function ScanPage() {
                 <button onClick={() => { setError(''); setPreview(null) }} className="mt-2 text-sm underline">다시 시도</button>
               </div>
             )}
-            <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFile} />
+            {/* 카메라 전용 */}
+            <input ref={cameraRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleFile} />
+            {/* 갤러리 전용 */}
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFile} />
           </>
         )}
 
